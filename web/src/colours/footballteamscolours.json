@@ -1,0 +1,161 @@
+{
+    "arizonacardinals": {
+        "color": "white",
+        "background-color": "#9b2743"
+    },
+
+    "atlantafalcons": {
+        "color": "black",
+        "background-color": "#a6192e"
+    },
+
+    "baltimoreravens": {
+        "color": "black",
+        "background-color": "#241773"
+    },
+
+    "buffalobills": {
+        "color": "white",
+        "background-color": "#00338d"
+    },
+
+    "carolinapanthers": {
+        "color": "#0085ca",
+        "background-color": "black"
+    },
+
+    "chicagobears": {
+        "color": "#dc4405",
+        "background-color": "#051c2c"
+    },
+
+    "cincinnatibengals": {
+        "color": "#fc4c02",
+        "background-color": "black"
+    },
+
+    "clevelandbrowns": {
+        "color": "#382f2d",
+        "background-color": "#eb3300"
+    },
+
+    "dallascowboys": {
+        "color": "white",
+        "background-color": "#003594"
+    },
+
+    "denverbroncos": {
+        "color": "#fc4c02",
+        "background-color": "#0c2340"
+    },
+
+    "detroitlions": {
+        "color": "#a2aaad",
+        "background-color": "#0069b1"
+    },
+
+    "greenbaypackers": {
+        "color": "#ffb81c",
+        "background-color": "#175e33"
+    },
+
+    "houstontexans": {
+        "color": "#a6192e",
+        "background-color": "#091f2c"
+    },
+
+    "indianapoliscolts": {
+        "color": "#001489",
+        "background-color": "white"
+    },
+
+    "jacksonvillejaguars": {
+        "color": "black",
+        "background-color": "#006073"
+    },
+
+    "kansascitychiefs": {
+        "color": "#ffb81c",
+        "background-color": "#c8102e"
+    },
+
+    "miamidolphins": {
+        "color": "#f58220",
+        "background-color": "#008e97"
+    },
+
+    "minnesotavikings": {
+        "color": "#ffb81c",
+        "background-color": "#512d6d"
+    },
+
+    "newenglandpatriots": {
+        "color": "white",
+        "background-color": "#0c2340"
+    },
+
+    "neworleanssaints": {
+        "color": "#a28d5b",
+        "background-color": "black"
+    },
+
+    "newyorkgiants": {
+        "color": "white",
+        "background-color": "#001e62"
+    },
+
+    "newyorkjets": {
+        "color": "white",
+        "background-color": "#0c371d"
+    },
+
+    "oaklandraiders": {
+        "color": "#a5acaf",
+        "background-color": "black"
+    },
+
+    "philadelphiaeagles": {
+        "color": "white",
+        "background-color": "#004851"
+    },
+
+    "pittsburghsteelers": {
+        "color": "#ffb81c",
+        "background-color": "black"
+    },
+
+    "losangeleschargers": {
+        "color": "#ffb81c",
+        "background-color": "#0c2340"
+    },
+
+    "sanfrancisco49ers": {
+        "color": "white",
+        "background-color": "#9b2743"
+    },
+
+    "seattleseahawks": {
+         "color": "#4dff00",
+         "background-color": "#001433"
+    },
+
+    "losangelesrams": {
+        "color": "white",
+        "background-color": "#002244"
+    },
+
+    "tampabaybuccaneers": {
+        "color": "white",
+        "background-color": "#c8102e"
+    },
+
+    "tennesseetitans": {
+        "color": "#4b92db",
+        "background-color": "#0c2340"
+    },
+
+    "washingtonredskins": {
+        "color": "#ffcd00",
+        "background-color": "#862633"
+    }
+}

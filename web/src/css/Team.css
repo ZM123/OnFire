@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css?family=Fugaz+One|Montserrat');
+
+.Team {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.Header {
+    padding: 10px;
+    font-size: 6vw;
+    text-align: center;
+}
+
+.Legend {
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    float: right;
+}
+
+.Legend * {
+    margin: 4px;
+    margin-left: 0px;
+    margin-right: 8px;
+}
+
+.ColourBackground {
+    opacity: 0.8;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.InfoCard {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 100%;
+    margin: 20px;
+    margin-top: 0;
+    border-radius: 2px;
+}
+
+.TeamName {
+    padding: 30px;
+    padding-bottom: 0;
+    font-size: 7vw;
+    text-align: center;
+}
+
+.ChartBox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.Tweets {
+    height: 100%;
+    width: 100%;
+    right: 0;
+    overflow: hidden;
+}
+
+.PosNegGraph {
+    height: 30%;
+    padding: 10px;
+}
+
+.ScoreGraph {
+    height: 60%;
+    overflow: hidden;
+    padding: 20px;
+}
+
+svg {
+    display: block;
+}
+
+.ScoreGraphItem {
+    margin-bottom: 30px;
+    margin-left: 10px;
+}
+
+.PlayerName {
+    font-weight: 100;
+    margin-right: 5px;
+    margin-bottom: 2px;
+    color: #333;
+}
+
+.ScoreBar {
+    height: 100%;
+    transition: all 0.35s;
+    vertical-align: middle;
+}
+
+.ScoreBar.positive {
+    fill: #3bc603;
+}
+
+.ScoreBar.negative {
+    fill: #e04b06;
+}
+
+.TweetBody {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #E0E0E0;
+    border-left: 1px solid #E0E0E0;
+}
+
+.TweetTextInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 15px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.TweetText {
+    overflow: hidden;
+}
+
+.Username {
+    display: inline-block;
+    font-weight: bold;
+}
+
+.ScreenName {
+    display: inline-block;
+    margin-left: 8px;
+    color: #888888;
+}
+
+.ProfilePicture {
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -25px 0 0 -25px;
+}
+
+.ProfilePictureContainer {
+    position: relative;
+    height: 100%;
+    width: 100px;
+    flex: 0 0 100px;
+}
+
+@media only screen and (min-width: 768px) {
+    .InfoCard {
+        flex-direction: row;
+        margin-top: 20px;
+    }
+    .ChartBox {
+        width: 60%;
+    }
+    .Tweets {
+        width: 40%;
+    }
+    .TeamName {
+        font-size: 3vw;
+        text-align: left;
+    }
+    .Legend {
+        justify-content: flex-start;
+        padding-left: 30px;
+    }
+    .Header {
+        padding-left: 30px;
+        padding-bottom: 0;
+        font-size: 1.2em;
+        text-align: left;
+    }
+}

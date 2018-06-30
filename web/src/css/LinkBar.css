@@ -1,0 +1,39 @@
+.LinkBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.BackLink.SportsLink {
+    font-size: 6vw;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.BackLink {
+    padding: 20px;
+    padding-bottom: 0px;
+    font-size: 13vw;
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: all 0.4s;
+    width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Fugaz One', sans-serif;
+}
+
+@media only screen and (min-width: 768px) {
+    .BackLink {
+        opacity: 0.6;
+        font-size: 3vw;
+    }
+    .BackLink.SportsLink {
+        font-size: 1vw;
+    }
+    .BackLink:hover {
+        opacity: 1;
+    }
+}

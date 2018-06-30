@@ -1,0 +1,8 @@
+version: '3'
+services:
+  web:
+    build: ./web
+    env_file:
+    - ./web/.env.local
+    ports:
+    - "8000:8000"

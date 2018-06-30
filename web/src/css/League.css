@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css?family=Fugaz+One|Montserrat');
+
+.HomeLink {
+    position: fixed;
+    padding: 20px;
+    color: white;
+    text-decoration: none;
+    opacity: 0.6;
+    transition: all 0.4s;
+    width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Fugaz One', sans-serif;
+    font-size: 10vw;
+}
+
+.HomeLink:hover {
+    opacity: 1;
+}
+
+.League {
+    position: absolute;
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    top: 0;
+    z-index: -2;
+}
+
+.LeagueBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+
+.StatsContainer {
+    width: 100%;
+    height: 100%;
+}
+
+.TeamsContainer {
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.TeamsContainer table {
+    border-collapse: collapse;
+    float: right;
+    width: 50%;
+}
+
+.TeamsContainer tr {
+    height: 40px;
+}
+
+.TeamsContainer td:hover .LinkBackground, .LinkBackground.active {
+    opacity: 1;
+}
+
+.TeamsContainer td {
+    padding: 0;
+    text-align: left;
+}
+
+.TeamsContainer td:hover {
+    cursor: pointer;
+}
+
+.LinkBackground {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    z-index: -1;
+    opacity: 0.8;
+    transition: all 0.3s;
+}
+
+.TeamLink {
+    display: block;
+    color: white;
+    font-size: 4vw;
+    text-decoration: none;
+    padding: 25px;
+    font-family: sans-serif;
+    font-weight: bold;
+    opacity: 1;
+    transition: all 0.3s;
+}
+
+.TeamLink:hover {
+    padding-left: 45px;
+}
+
+
+@media only screen and (min-width: 768px) {
+    .League {
+        bottom: 0;
+    }
+    .TeamsContainer tr {
+        height: 120px;
+    }
+    .HomeLink {
+        font-size: 3vw;
+    }
+}
