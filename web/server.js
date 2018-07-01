@@ -11,13 +11,21 @@ const io = require('socket.io')(server);
 const sentiment = new Sentiment();
 const port = process.env.PORT || 8000;
 
-let dailyData = [];
+let dailyData = {
+    all: []
+};
 
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/helloworld', (req, res) => {
-    res.json(dailyData)
+app.get('/recent/all', (req, res) => {
+    res.json(dailyData['all'])
 })
+
+app.get('/recent/:team', (req, res) => {
+    const recent = dailyData[req.params.team] || []
+    res.json(recent)
+})
+
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
 
 server.listen(port);
@@ -75,7 +83,13 @@ client.stream('statuses/filter', { track: tags.join(), stall_warnings: true }, f
                                 },
                                 score: score
                             });
-                            dailyData = [{player: 'hi', score: score, count: 1}]
+
+                            dailyData['all'].unshift({ player: mentionedPlayer, score })
+                            if (dailyData['all'].length > 200) dailyData['all'].pop()
+                            const teamRecent = dailyData[mentionedTeam] || []
+                            teamRecent.unshift({ player: mentionedPlayer, score })
+                            if (teamRecent.length > 200) teamRecent.pop()
+                            dailyData[mentionedTeam] = teamRecent
                         }
                         return !!mentionedPlayer
                     })
