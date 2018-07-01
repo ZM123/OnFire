@@ -1,0 +1,21 @@
+{
+  "name": "onfire-worker",
+  "version": "1.0.0",
+  "description": "OnFire Twitter worker app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Zal Machado",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "http": "0.0.0",
+    "lodash": "^4.17.10",
+    "sentiment": "^5.0.1",
+    "socket.io": "^2.1.1",
+    "testsocket-teams": "^2.2.4",
+    "twitter": "^1.7.1"
+  }
+}
