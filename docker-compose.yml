@@ -12,3 +12,5 @@ services:
     - ./worker/.env.local
     ports:
     - "8200:8200"
+  redis:
+    image: "redis:alpine"

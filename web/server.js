@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const redis = require('redis');
 
 const app = express();
 const server = require('http').createServer(app);
@@ -7,19 +8,42 @@ const io = require('socket.io-client');
 const emitter = require('socket.io')(server);
 const port = 8000;
 
-let dailyData = {
-    all: []
-};
+const client = redis.createClient('6379', 'redis');
 
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/recent/all', (req, res) => {
-    res.json(dailyData['all'])
+    client.lrange('recent:all', '0', '-1', function(err, replies) {
+        if (replies) {
+            const scores = replies.map(entry => {
+                return {
+                    player: entry.split(';')[0],
+                    score: parseInt(entry.split(';')[1])
+                }
+            })
+            res.json(scores)
+        } else {
+            console.log('ERR: ' + err)
+            res.json([])
+        }
+    })
 })
 
 app.get('/recent/:team', (req, res) => {
-    const recent = dailyData[req.params.team] || []
-    res.json(recent)
+    client.lrange('recent:' + req.params.team, '0', '-1', function(err, replies) {
+        if (replies) {
+            const scores = replies.map(entry => {
+                return {
+                    player: entry.split(';')[0],
+                    score: parseInt(entry.split(';')[1])
+                }
+            })
+            res.json(scores)
+        } else {
+            console.log('ERR: ' + err)
+            res.json([])
+        }
+    })
 })
 
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
@@ -30,12 +54,11 @@ const socket = io('http://worker:8200');
 socket.on('tweet', (tweet) => {
     const { team, player, score } = tweet
 
-    dailyData['all'].unshift({ player, score })
-    if (dailyData['all'].length > 200) dailyData['all'].pop()
+    client.lpush('recent:all', player + ';' + score)
+    client.ltrim('recent:all', '0', '199')
 
-    const teamRecent = dailyData[team] || []
-    teamRecent.unshift({ player, score })
-    if (teamRecent.length > 200) teamRecent.pop()
-    dailyData[team] = teamRecent
+    client.lpush('recent:' + team, player + ';' + score)
+    client.ltrim('recent:' + team, '0', '199')
+
     emitter.emit('tweet', tweet);
 })
