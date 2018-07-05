@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import io from 'socket.io-client';
 import './css/Home.css';
 
 import HomeGraph from './components/HomeGraph';
 import LinkBar from './components/LinkBar';
 import homeimages from './images/homeimages';
 
-let socket;
 let background;
 
 class Home extends Component {

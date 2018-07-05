@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import io from 'socket.io-client';
 import '../css/Home.css';
 
-import teamNames from '../teams/teamNames';
 import ScoreGraph from './ScoreGraph';
 
 let socket;
@@ -31,7 +30,8 @@ export default class InfoCard extends Component {
     componentDidMount() {
         fetch('/recent/all')
             .then((response) => {
-                return response.json();
+                if (response.ok) return response.json();
+                return Promise.resolve([]);
             })
             .then((scores) => {
                 this.setState({

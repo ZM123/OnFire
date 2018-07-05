@@ -1,0 +1,10 @@
+.react-calendar {
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    font-family: inherit;
+}
+
+.react-calendar button {
+    font-family: inherit;
+}

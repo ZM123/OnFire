@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { parse } from 'qs';
 import './css/Team.css';
 
 import teamColours from './colours/teamColours';
@@ -14,7 +16,10 @@ class Team extends Component {
             <div className="Team">
                 <div className="ColourBackground" style={{backgroundColor: teamColour}} />
                 <LinkBar />
-                <InfoCard team={this.props.match.params.team} colour={teamColour} live />
+                <Switch>
+                    <Route exact path={`${this.props.match.path}/live`} render={() => <InfoCard team={this.props.match.params.team} colour={teamColour} live />} />
+                    <Route path={`${this.props.match.path}`} render={() => <InfoCard team={this.props.match.params.team} colour={teamColour} date={parse(this.props.location.search.substr(1)).date} />} />
+                </Switch>
             </div>
         );
     }

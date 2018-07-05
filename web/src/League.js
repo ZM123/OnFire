@@ -55,7 +55,7 @@ class TeamList extends Component {
                             <TableRow
                                 teamId={team}
                                 team={teamObject[this.props.match.params.sport][team]}
-                                link={`${this.props.match.url}/${team}`}
+                                link={`${this.props.match.url}/${team}/live`}
                                 key={team}
                                 />
                         )}
