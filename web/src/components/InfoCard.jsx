@@ -26,20 +26,26 @@ class InfoCard extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.date && this.props.date !== prevProps.date) {
+        if (this.props.date !== prevProps.date) {
             this.clearState()
-            this.getHistoricScores(this.props.date)
+            if (this.props.date) {
+                this.getHistoricScores(this.props.date)
+            } else {
+                this.getTodayScores()
+            }
         }
-        if (!this.props.date && this.props.date !== prevProps.date) {
+        if (this.props.live !== prevProps.live) {
             this.clearState()
-            this.getTodayScores()
-        }
-        if (this.props.live && this.props.live !== prevProps.live) {
-            this.clearState()
-            this.getLiveScores()
-        }
-        if (!this.props.live && this.props.live !== prevProps.live) {
-            if (socket) socket.removeAllListeners('tweet')
+            if (this.props.live) {
+                this.getLiveScores()
+            } else {
+                if (socket) socket.removeAllListeners('tweet')
+                if (this.props.date) {
+                    this.getHistoricScores(this.props.date)
+                } else {
+                    this.getTodayScores()
+                }
+            }
         }
     }
 
@@ -66,8 +72,8 @@ class InfoCard extends Component {
 
     calculateScoreBreakdown(scores) {
         return {
-            positive: this.state.scores.filter(s => s.score >= 0).length,
-            negative: this.state.scores.filter(s => s.score < 0).length
+            positive: scores.filter(s => s.score >= 0).length,
+            negative: scores.filter(s => s.score < 0).length
         }
     }
 
@@ -110,7 +116,22 @@ class InfoCard extends Component {
     }
 
     getTodayScores() {
-        console.log('today!')
+        fetch('/scores/' + this.props.team + '/today')
+            .then((response) => {
+                if (response.ok) return response.json();
+                return Promise.resolve([])
+            })
+            .then(({ scoreMap, positive, negative }) => {
+                Object.keys(scoreMap).forEach(player => {
+                    scoreMap[player] = { score: scoreMap[player] }
+                })
+                this.setState({
+                    scores: [],
+                    scoreMap: scoreMap,
+                    scoreBreakdown: { positive, negative },
+                    loaded: true
+                })
+            })
     }
 
     getHistoricScores(date) {

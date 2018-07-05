@@ -46,6 +46,26 @@ app.get('/recent/:team', (req, res) => {
     })
 })
 
+app.get('/scores/:team/today', (req, res) => {
+    client.hgetall('scores:' + req.params.team, function(err, replies) {
+        if (replies) {
+            const scoreMap = replies;
+            const positive = scoreMap['positive']
+            const negative = scoreMap['negative']
+            delete scoreMap['positive']
+            delete scoreMap['negative']
+            res.json({ scoreMap, positive, negative })
+        } else {
+            console.log('ERR: ' + err)
+            res.json({
+                scoreMap: {},
+                positive: 0,
+                negative: 0
+            })
+        }
+    })
+})
+
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
 
 server.listen(port);
@@ -59,6 +79,14 @@ socket.on('tweet', (tweet) => {
 
     client.lpush('recent:' + team, player + ';' + score)
     client.ltrim('recent:' + team, '0', '199')
+
+    client.hincrby('scores:' + team, player, score)
+    if (score >= 0) {
+        client.hincrby('scores:' + team, 'positive', 1)
+    } else {
+        client.hincrby('scores:' + team, 'negative', 1)
+    }
+
 
     emitter.emit('tweet', tweet);
 })
