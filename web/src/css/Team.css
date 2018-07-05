@@ -8,6 +8,28 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+.ModeLink {
+    font-size: 10vw;
+    font-family: 'Fugaz One', sans-serif;
+    color: white;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: all 0.4s;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.ModeLink.active {
+    text-decoration: underline;
+    opacity: 1;
+}
+
+.ModeBar {
+    display: flex;
+    margin: auto;
+}
+
 .Header {
     padding: 10px;
     font-size: 6vw;
@@ -161,6 +183,15 @@ svg {
 }
 
 @media only screen and (min-width: 768px) {
+    .ModeLink {
+        font-size: 2.5vw;
+        opacity: 0.8;
+        padding-left: 100px;
+        padding-right: 100px;
+    }
+    .ModeLink:hover {
+        opacity: 1;
+    }
     .InfoCard {
         flex-direction: row;
         margin-top: 20px;

@@ -147,6 +147,7 @@ class InfoCard extends Component {
         const numScores = window.innerWidth > 768 ? Math.floor(window.innerHeight/180) : 5
         const numTweets = window.innerWidth > 768 ? Math.floor(window.innerHeight/110) : 8
         let date = new Date();
+        date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours() - 9))
         if (this.isValidDate(this.props.date)) {
             date = new Date(this.props.date.split('-')[0], this.props.date.split('-')[1] - 1, this.props.date.split('-')[2])
         }
@@ -172,7 +173,7 @@ class InfoCard extends Component {
                         />}
                 </div>
                 {this.props.live && <TweetFeed tweets={this.state.tweets} numTweets={numTweets} colour={this.props.colour} />}
-                {!this.props.live && <Calendar value={date} onChange={(date) => this.setDate(date)}/>}
+                {!this.props.live && <Calendar tileDisabled={({date}) => date.getDate() === 14} value={date} onChange={(date) => this.setDate(date)}/>}
             </div>
         )
     }
