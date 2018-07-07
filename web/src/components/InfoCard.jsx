@@ -21,6 +21,7 @@ class InfoCard extends Component {
             scores: [],
             scoreMap: {},
             scoreBreakdown: {},
+            dates: [],
             loaded: false
         };
     }
@@ -39,6 +40,7 @@ class InfoCard extends Component {
             if (this.props.live) {
                 this.getLiveScores()
             } else {
+                this.getAllowedDates()
                 if (socket) socket.removeAllListeners('tweet')
                 if (this.props.date) {
                     this.getHistoricScores(this.props.date)
@@ -55,6 +57,7 @@ class InfoCard extends Component {
             scores: [],
             scoreMap: {},
             scoreBreakdown: {},
+            dates: [],
             loaded: false
         })
     }
@@ -115,6 +118,19 @@ class InfoCard extends Component {
             });
     }
 
+    getAllowedDates() {
+        fetch('/dates/' + this.props.team)
+            .then((response) => {
+                if (response.ok) return response.json();
+                return Promise.resolve([])
+            })
+            .then((dates) => {
+                this.setState({
+                    dates: dates
+                })
+            })
+    }
+
     getTodayScores() {
         fetch('/scores/' + this.props.team + '/today')
             .then((response) => {
@@ -142,6 +158,13 @@ class InfoCard extends Component {
         this.props.history.push('?date=' + date.toISOString().substr(0, 10));
     }
 
+    shouldDisableDate(date, currDate, allowedDates) {
+        const dateString = date.toISOString().substr(0, 10)
+        console.log(dateString, currDate.toISOString().substr(0, 10))
+        if (dateString === currDate.toISOString().substr(0, 10)) return false;
+        return !allowedDates.includes(dateString)
+    }
+
     isValidDate(date) {
         return date;
         // FIX THIS
@@ -151,6 +174,7 @@ class InfoCard extends Component {
         if (this.props.live) {
             this.getLiveScores()
         } else {
+            this.getAllowedDates()
             if (this.props.date) {
                 this.getHistoricScores(this.props.date)
             } else {
@@ -167,10 +191,10 @@ class InfoCard extends Component {
     render() {
         const numScores = window.innerWidth > 768 ? Math.floor(window.innerHeight/180) : 5
         const numTweets = window.innerWidth > 768 ? Math.floor(window.innerHeight/110) : 8
-        let date = new Date();
-        date = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours() - 9))
+        let currDate = new Date();
+        currDate = new Date(Date.UTC(currDate.getUTCFullYear(), currDate.getUTCMonth(), currDate.getUTCDate(), currDate.getUTCHours() - 9))
         if (this.isValidDate(this.props.date)) {
-            date = new Date(this.props.date.split('-')[0], this.props.date.split('-')[1] - 1, this.props.date.split('-')[2])
+            currDate = new Date(this.props.date.split('-')[0], this.props.date.split('-')[1] - 1, this.props.date.split('-')[2])
         }
 
         return (
@@ -185,6 +209,7 @@ class InfoCard extends Component {
                         scoreMap={this.state.scoreMap}
                         teamColour={this.props.colour}
                         numScores={numScores}
+                        live={this.props.live}
                         />}
                     <span className="Header">Positivity</span>
                     {<PosNegGraph
@@ -194,7 +219,7 @@ class InfoCard extends Component {
                         />}
                 </div>
                 {this.props.live && <TweetFeed tweets={this.state.tweets} numTweets={numTweets} colour={this.props.colour} />}
-                {!this.props.live && <Calendar tileDisabled={({date}) => date.getDate() === 14} value={date} onChange={(date) => this.setDate(date)}/>}
+                {!this.props.live && <Calendar tileDisabled={({date}) => this.shouldDisableDate(date, currDate, this.state.dates)} value={currDate} onChange={(date) => this.setDate(date)}/>}
             </div>
         )
     }

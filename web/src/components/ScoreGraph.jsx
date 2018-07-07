@@ -22,6 +22,7 @@ export default class ScoreGraph extends Component {
                         count={scoreObj.count}
                         key={scoreObj.player}
                         colour={this.props.teamColour}
+                        scoreMap={!this.props.live && this.props.scoreMap}
                         />
                 )}
             </div>
@@ -31,6 +32,14 @@ export default class ScoreGraph extends Component {
 
 class ScoreGraphItem extends Component {
     render() {
+        let width = `${Math.min(Math.abs(this.props.score)*2, 100)}%`
+        if (this.props.scoreMap) {
+            let sum = Object.values(this.props.scoreMap).reduce((a, b) => {
+                return Math.abs(a) + Math.abs(parseInt(b.score, 10));
+            }, 0)
+            width = `${Math.min(100*(Math.abs(this.props.score)/(0.3*sum)), 100)}%`
+        }
+
         return (
             <div className="ScoreGraphItem">
                 <div className="PlayerName">
@@ -43,7 +52,7 @@ class ScoreGraphItem extends Component {
                             negative: this.props.score < 0
                         })}
                         style={{
-                            width: `${Math.min(Math.abs(this.props.score)*2, 100)}%`,
+                            width: width,
                             fill: `${this.props.score > 0 ? this.props.colour : '#bbbbbb'}`
                         }}
                         rx="8"

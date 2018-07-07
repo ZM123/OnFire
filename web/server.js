@@ -66,6 +66,17 @@ app.get('/scores/:team/today', (req, res) => {
     })
 })
 
+app.get('/dates/:team', (req, res) => {
+    client.lrange('dates:' + req.params.team, '0', '-1', function(err, replies) {
+        if (replies) {
+            res.json(replies)
+        } else {
+            console.log('ERR: ' + err)
+            res.json([])
+        }
+    })
+})
+
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
 
 server.listen(port);

@@ -89,6 +89,7 @@ export default class InfoCard extends Component {
                         scoreMap={this.state.scoreMap}
                         teamColour={'black'}
                         numScores={numScores}
+                        live
                         />
                 </div>}
             </div>
