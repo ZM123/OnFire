@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aws-sdk": "^2.270.1",
     "chart.js": "^2.7.2",
     "classnames": "^2.2.6",
     "express": "^4.16.3",

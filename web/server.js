@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const redis = require('redis');
+const AWS = require('aws-sdk');
 
 const app = express();
 const server = require('http').createServer(app);
@@ -9,6 +10,11 @@ const emitter = require('socket.io')(server);
 const port = 8000;
 
 const client = redis.createClient('6379', 'redis');
+AWS.config.update({
+    region: 'us-east-1',
+    endpoint: 'https://dynamodb.us-east-1.amazonaws.com'
+})
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -23,7 +29,7 @@ app.get('/recent/all', (req, res) => {
             })
             res.json(scores)
         } else {
-            console.log('ERR: ' + err)
+            console.log('ERR: ' + JSON.stringify(err))
             res.json([])
         }
     })
@@ -40,7 +46,7 @@ app.get('/recent/:team', (req, res) => {
             })
             res.json(scores)
         } else {
-            console.log('ERR: ' + err)
+            console.log('ERR: ' + JSON.stringify(err))
             res.json([])
         }
     })
@@ -56,7 +62,49 @@ app.get('/scores/:team/today', (req, res) => {
             delete scoreMap['negative']
             res.json({ scoreMap, positive, negative })
         } else {
-            console.log('ERR: ' + err)
+            console.log('ERR: ' + JSON.stringify(err))
+            res.json({
+                scoreMap: {},
+                positive: 0,
+                negative: 0
+            })
+        }
+    })
+})
+
+app.get('/scores/:team/:date', (req, res) => {
+    client.lrange('dates:' + req.params.team, '0', '-1', function(err, replies) {
+        if (replies) {
+            if (replies.includes(req.params.date)) {
+                const params = {
+                    TableName: process.env.AWS_TABLE_NAME,
+                    Key: {
+                        "Team": req.params.team,
+                        "Date": req.params.date
+                    }
+                }
+                dynamodb.get(params, function(err, data) {
+                    if (err) {
+                        console.log("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+                    } else {
+                        const scoreMap = data['Item']['Scores'];
+                        const positive = scoreMap['positive']
+                        const negative = scoreMap['negative']
+                        delete scoreMap['positive']
+                        delete scoreMap['negative']
+                        res.json({ scoreMap, positive, negative })
+                    }
+                })
+            } else {
+                console.log('ERR: Date ' + req.params.date + ' not found for team ' + req.params.team)
+                res.json({
+                    scoreMap: {},
+                    positive: 0,
+                    negative: 0
+                })
+            }
+        } else {
+            console.log('ERR: ' + JSON.stringify(err))
             res.json({
                 scoreMap: {},
                 positive: 0,
@@ -71,7 +119,7 @@ app.get('/dates/:team', (req, res) => {
         if (replies) {
             res.json(replies)
         } else {
-            console.log('ERR: ' + err)
+            console.log('ERR: ' + JSON.stringify(err))
             res.json([])
         }
     })
