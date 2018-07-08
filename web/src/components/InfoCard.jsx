@@ -223,18 +223,18 @@ class InfoCard extends Component {
                     </span>
                     <span className="Header">Sentiment</span>
                     <Legend colour={this.props.colour} />
-                    {<ScoreGraph
+                    <ScoreGraph
                         scoreMap={this.state.scoreMap}
                         teamColour={this.props.colour}
                         numScores={numScores}
                         live={this.props.live}
-                        />}
+                        />
                     <span className="Header">Positivity</span>
-                    {<PosNegGraph
+                    <PosNegGraph
                         numPos={this.state.scoreBreakdown.positive}
                         numNeg={this.state.scoreBreakdown.negative}
                         colour={this.props.colour}
-                        />}
+                        />
                 </div>
                 {this.props.live && <TweetFeed tweets={this.state.tweets} numTweets={numTweets} colour={this.props.colour} />}
                 {!this.props.live && <Calendar tileDisabled={({date}) => this.shouldDisableDate(date, this.state.dates)} value={currDate} onChange={(date) => this.setDate(date)}/>}
