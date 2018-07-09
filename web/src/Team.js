@@ -9,7 +9,17 @@ import InfoCard from './components/InfoCard';
 
 
 class Team extends Component {
+    isValidTeam(team) {
+        return teamColours[this.props.match.params.team]
+    }
+
     render() {
+        if (!this.isValidTeam(this.props.match.params.team)) {
+            return (
+                <div></div>
+            );
+        }
+        
         const teamColour = teamColours[this.props.match.params.team]['background-color']
 
         return (

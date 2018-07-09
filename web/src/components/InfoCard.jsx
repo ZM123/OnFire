@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import Calendar from 'react-calendar';
@@ -178,11 +179,6 @@ class InfoCard extends Component {
         return !allowedDates.includes(dateString)
     }
 
-    isValidDate(date) {
-        return date;
-        // FIX THIS
-    }
-
     getTodaysDate() {
         let currDate = new Date();
         currDate = new Date(Date.UTC(currDate.getUTCFullYear(), currDate.getUTCMonth(), currDate.getUTCDate(), currDate.getUTCHours()))
@@ -211,7 +207,7 @@ class InfoCard extends Component {
         const numScores = window.innerWidth > 768 ? Math.floor(window.innerHeight/180) : 5
         const numTweets = window.innerWidth > 768 ? Math.floor(window.innerHeight/110) : 8
         let currDate = this.getTodaysDate()
-        if (this.isValidDate(this.props.date)) {
+        if (moment(this.props.date, 'YYYY-MM-DD', true).isValid()) {
             currDate = new Date(this.props.date.split('-')[0], this.props.date.split('-')[1] - 1, this.props.date.split('-')[2])
         }
 

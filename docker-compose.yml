@@ -2,22 +2,16 @@ version: '3'
 services:
   web:
     build: ./web
-    env_file:
-    - ./web/.env.local
     ports:
     - "8000:8000"
     links:
     - worker
   worker:
     build: ./worker
-    env_file:
-    - ./worker/.env.local
     ports:
     - "8200:8200"
   backup:
     build: ./backup
-    env_file:
-    - ./backup/.env.local
   redis:
     image: "redis:alpine"
     ports:

@@ -31,7 +31,17 @@ const teamObject = {
 }
 
 class League extends Component {
+    isValidLeague(sport) {
+        return sport === 'baseball' || sport === 'basketball' || sport === 'hockey' || sport === 'worldcup'
+    }
+
     render() {
+        if (!this.isValidLeague(this.props.match.params.sport)) {
+            return (
+                <div></div>
+            );
+        }
+
         return (
             <div className="League">
                 <img src={leagueImages[this.props.match.params.sport]} alt="" className="LeagueBackground" />
