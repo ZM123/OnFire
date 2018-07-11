@@ -4,8 +4,6 @@ services:
     build: ./web
     ports:
     - "8000:8000"
-    links:
-    - worker
   worker:
     build: ./worker
     ports:

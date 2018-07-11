@@ -9,7 +9,24 @@ const io = require('socket.io-client');
 const emitter = require('socket.io')(server);
 const port = 8000;
 
-const client = redis.createClient('6379', 'redis');
+const client = redis.createClient('6379', 'redis', {
+    retry_strategy: (options) => {
+        if (options.error && options.error.code === 'ECONNREFUSED') {
+            // End reconnecting on a specific error and flush all commands with
+            // a individual error
+            throw new Error('The server refused the connection');
+        }
+        if (options.total_retry_time > 1000 * 60 * 60 * 10) {
+            // End reconnecting after a specific timeout and flush all commands
+            // with a individual error
+            throw new Error('Retry time exhausted');
+        }
+        // reconnect after
+        console.log("Reconnecting, attempt " + options.attempt)
+        return Math.min(options.attempt * 1000, 3000);
+    }
+});
+
 AWS.config.update({
     region: 'us-east-1',
     endpoint: 'https://dynamodb.us-east-1.amazonaws.com'
