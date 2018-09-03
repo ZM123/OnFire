@@ -7,7 +7,7 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io-client');
 const emitter = require('socket.io')(server);
-const port = 8000;
+const port = 80;
 
 const client = redis.createClient('6379', 'redis', {
     retry_strategy: (options) => {

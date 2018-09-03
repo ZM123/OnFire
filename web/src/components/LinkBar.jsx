@@ -7,7 +7,7 @@ export default class LinkBar extends Component {
         return (
             <div className="LinkBar">
                 <Link to="/hockey" className="BackLink SportsLink">HOCKEY</Link>
-                <Link to="/worldcup" className="BackLink SportsLink">WORLD CUP</Link>
+                <Link to="/football" className="BackLink SportsLink">FOOTBALL</Link>
                 <Link to="/" className="BackLink">OnFire</Link>
                 <Link to="/basketball" className="BackLink SportsLink">BASKETBALL</Link>
                 <Link to="/baseball" className="BackLink SportsLink">BASEBALL</Link>

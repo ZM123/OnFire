@@ -1,5 +1,4 @@
 import teams from 'testsocket-teams'
-import footballColours from './footballteamscolours.json'
 
 const baseballColours = {}
 Object.keys(teams.allBaseball).forEach(key => {
@@ -21,10 +20,16 @@ Object.keys(teams.allWorldCup).forEach(key => {
     worldcupColours[key] = teams.allWorldCup[key].colours
 })
 
+const footballColours = {}
+Object.keys(teams.allFootball).forEach(key => {
+    footballColours[key] = teams.allFootball[key].colours
+})
+
 export default {
     ...baseballColours,
     ...basketballColours,
     ...footballColours,
     ...hockeyColours,
-    ...worldcupColours
+    ...worldcupColours,
+    ...footballColours
 }

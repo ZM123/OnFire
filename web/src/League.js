@@ -9,8 +9,7 @@ import footballImage from './images/football.jpg';
 import hockeyImage from './images/hockey.jpg';
 import worldcupImage from './images/soccer.jpg';
 
-import { baseballTeams, basketballTeams, hockeyTeams, worldcupTeams } from './teams/teamNames';
-import footballTeams from './teams/footballteams.json';
+import { baseballTeams, basketballTeams, hockeyTeams, worldcupTeams, footballTeams } from './teams/teamNames';
 
 import teamColours from './colours/teamColours'
 
@@ -25,14 +24,14 @@ const leagueImages = {
 const teamObject = {
     baseball: baseballTeams,
     basketball: basketballTeams,
-    football: Object.values(footballTeams),
+    football: footballTeams,
     hockey: hockeyTeams,
     worldcup: worldcupTeams
 }
 
 class League extends Component {
     isValidLeague(sport) {
-        return sport === 'baseball' || sport === 'basketball' || sport === 'hockey' || sport === 'worldcup'
+        return sport === 'baseball' || sport === 'basketball' || sport === 'hockey' || sport === 'worldcup' || sport === 'football'
     }
 
     render() {

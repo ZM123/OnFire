@@ -1,5 +1,4 @@
 import teams from 'testsocket-teams'
-import footballTeams from './footballteams.json'
 
 let baseballTeams = {}
 Object.keys(teams.allBaseball).forEach(key => {
@@ -21,17 +20,24 @@ Object.keys(teams.allWorldCup).forEach(key => {
     worldcupTeams[key] = teams.allWorldCup[key].fullName
 })
 
+let footballTeams = {}
+Object.keys(teams.allFootball).forEach(key => {
+    footballTeams[key] = teams.allFootball[key].fullName
+})
+
 export default {
     ...baseballTeams,
     ...basketballTeams,
     ...footballTeams,
     ...hockeyTeams,
-    ...worldcupTeams
+    ...worldcupTeams,
+    ...footballTeams
 }
 
 export {
     baseballTeams,
     basketballTeams,
     hockeyTeams,
-    worldcupTeams
+    worldcupTeams,
+    footballTeams
 }
