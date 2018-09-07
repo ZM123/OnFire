@@ -90,54 +90,54 @@ app.get('/scores/:team/today', (req, res) => {
 })
 
 app.get('/scores/:team/:date', (req, res) => {
-    client.lrange('dates:' + req.params.team, '0', '-1', function(err, replies) {
-        if (replies) {
-            if (replies.includes(req.params.date)) {
-                const params = {
-                    TableName: process.env.AWS_TABLE_NAME,
-                    Key: {
-                        "Team": req.params.team,
-                        "Date": req.params.date
-                    }
-                }
-                dynamodb.get(params, function(err, data) {
-                    if (err) {
-                        console.log("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-                    } else {
-                        const scoreMap = data['Item']['Scores'];
-                        const positive = scoreMap['positive']
-                        const negative = scoreMap['negative']
-                        delete scoreMap['positive']
-                        delete scoreMap['negative']
-                        res.json({ scoreMap, positive, negative })
-                    }
-                })
-            } else {
-                console.log('ERR: Date ' + req.params.date + ' not found for team ' + req.params.team)
-                res.json({
-                    scoreMap: {},
-                    positive: 0,
-                    negative: 0
-                })
+        const params = {
+            TableName: process.env.AWS_TABLE_NAME,
+            Key: {
+                "Team": req.params.team,
+                "Date": req.params.date
             }
-        } else {
-            console.log('ERR: ' + JSON.stringify(err))
-            res.json({
-                scoreMap: {},
-                positive: 0,
-                negative: 0
-            })
         }
-    })
+        dynamodb.get(params, function(err, data) {
+            if (err) {
+                console.log("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+            } else {
+                if (data && data['Item'] && data['Item']['Scores']) {
+                    const scoreMap = data['Item']['Scores'];
+                    const positive = scoreMap['positive']
+                    const negative = scoreMap['negative']
+                    delete scoreMap['positive']
+                    delete scoreMap['negative']
+                    res.json({ scoreMap, positive, negative })
+                } else {
+                    res.json({
+                        scoreMap: {},
+                        positive: 0,
+                        negative: 0
+                    })
+                }
+            }
+        })
 })
 
 app.get('/dates/:team', (req, res) => {
-    client.lrange('dates:' + req.params.team, '0', '-1', function(err, replies) {
-        if (replies) {
-            res.json(replies)
-        } else {
-            console.log('ERR: ' + JSON.stringify(err))
+    const params = {
+        TableName: process.env.AWS_TABLE_NAME,
+        Key: {
+            "Team": req.params.team,
+            "Date": "all"
+        }
+    }
+    dynamodb.get(params, function(err, data) {
+        if (err) {
+            console.log("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
             res.json([])
+        } else {
+            if (data && data['Item'] && data['Item']['Entries']) {
+                const dates = data['Item']['Entries'];
+                res.json(dates)
+            } else {
+                res.json([])
+            }
         }
     })
 })

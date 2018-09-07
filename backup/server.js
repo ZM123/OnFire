@@ -30,6 +30,43 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 const allTeams = Object.assign({}, teams.allBaseball, teams.allHockey, teams.allBasketball, teams.allWorldCup);
 
+function addDateToList(team, dateString) {
+    dynamodb.update({
+        TableName: process.env.AWS_TABLE_NAME,
+        Key: {
+            "Team": team,
+            "Date": "all"
+        },
+        UpdateExpression: "SET #c = list_append(#c, :vals)",
+        ExpressionAttributeNames: {
+            "#c": "Entries"
+        },
+        ExpressionAttributeValues: {
+            ":vals": [dateString]
+        },
+        ReturnValues: "UPDATED_NEW"
+    }, function(err, data) {
+        if (err) {
+            if (err.code === "ValidationException") {
+                console.log("Team entry does not exist, creating...")
+                dynamodb.put({
+                    TableName: process.env.AWS_TABLE_NAME,
+                    Item: {
+                        "Team": team,
+                        "Date": "all",
+                        "Entries": [dateString]
+                    }
+                }, function(err, data) {
+                    if (err) console.log(err)
+                    else console.log(data)
+                })
+            } else {
+                console.log(err)
+            }
+        } else console.log(data)
+    })
+}
+
 function writeToDatabase(team, dateString, subMap, i) {
     setTimeout(() => dynamodb.put({
         TableName: process.env.AWS_TABLE_NAME,
@@ -43,7 +80,7 @@ function writeToDatabase(team, dateString, subMap, i) {
             console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
         } else {
             console.log("Added item: " + team + ' ' + dateString);
-            redisClient.lpush('dates:' + team, dateString)
+            addDateToList(team, dateString)
         }
     }), i * 500);
 }
