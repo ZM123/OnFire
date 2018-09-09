@@ -31,7 +31,8 @@ const sentimentOverrides = {
     deficit: 0,
     fire: 3,
     '🔥': 1,
-    cooking: 1
+    cooking: 1,
+    safety: 0
 }
 
 const tagsToTeam = teams.tagsToTeam;

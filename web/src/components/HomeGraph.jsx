@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import '../css/Home.css';
 
 import ScoreGraph from './ScoreGraph';
+import IntroBox from './IntroBox';
 
 let socket;
 
@@ -91,6 +92,7 @@ export default class InfoCard extends Component {
                         numScores={numScores}
                         live
                         />
+                    <IntroBox />
                 </div>}
             </div>
         )
