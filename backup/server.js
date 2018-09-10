@@ -28,7 +28,7 @@ AWS.config.update({
 })
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-const allTeams = Object.assign({}, teams.allBaseball, teams.allHockey, teams.allBasketball, teams.allWorldCup);
+const allTeams = Object.assign({}, teams.allBaseball, teams.allHockey, teams.allBasketball, teams.allFootball);
 
 function addDateToList(team, dateString) {
     dynamodb.update({

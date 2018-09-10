@@ -53,7 +53,7 @@ client.stream('statuses/filter', { track: tags.join(), stall_warnings: true }, f
                         if (tweet.includes(name)) mentionedPlayer = name;
                         if (mentionedPlayer) {
                             let score = sentiment.analyze(tweet, { extras: sentimentOverrides }).score
-                            if (mentionedPlayer === 'kevin love') score -= 3
+                            if (mentionedPlayer === 'kevin love' || mentionedPlayer === 'kyle love') score -= 3
                             console.log(tweet + ' ' + score + ' ' + mentionedPlayer)
                             io.emit('tweet', {
                                 team: mentionedTeam,

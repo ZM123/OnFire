@@ -82,9 +82,9 @@
     display: block;
     color: white;
     font-size: 4vw;
+    font-family: 'Montserrat', sans-serif;
     text-decoration: none;
     padding: 25px;
-    font-family: sans-serif;
     font-weight: bold;
     opacity: 1;
     transition: all 0.3s;
