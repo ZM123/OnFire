@@ -43,7 +43,7 @@ const tags = Object.keys(tagsToTeam)
 client.stream('statuses/filter', { track: tags.join(), stall_warnings: true }, function(stream) {
     stream.on('data', function (data) {
         const isTweet = _.conformsTo(data, {
-          contributors: _.isObject,
+          user: _.isObject,
           id_str: _.isString,
           text: _.isString,
         })
@@ -61,7 +61,7 @@ client.stream('statuses/filter', { track: tags.join(), stall_warnings: true }, f
                             if (mentionedPlayer) {
                                 let score = sentiment.analyze(tweet, { extras: sentimentOverrides }).score
                                 if (mentionedPlayer === 'kevin love' || mentionedPlayer === 'kyle love') score -= 3
-                                console.log(tweet + ' ' + score + ' ' + mentionedPlayer)
+                                // console.log(tweet + ' ' + score + ' ' + mentionedPlayer)
                                 io.emit('tweet', {
                                     team: mentionedTeam,
                                     player: mentionedPlayer,
@@ -81,19 +81,19 @@ client.stream('statuses/filter', { track: tags.join(), stall_warnings: true }, f
                 })
             }
         } else {
-            console.log("OTHER: " + data)
+            if (!data.limit) console.log("OTHER: " + JSON.stringify(data))
         }
     });
 
     stream.on('warning', function(warning) {
-        console.log("WARNING: " + warning)
+        console.log("WARNING: " + JSON.stringify(warning))
     })
 
     stream.on('error', function(error) {
-        console.log(error)
+        console.log(JSON.stringify(error))
     })
 
     stream.on('end', function(end) {
-        console.log("END: " + end)
+        console.log("END: " + JSON.stringify(end))
     })
 });
