@@ -42,36 +42,46 @@ const tags = Object.keys(tagsToTeam)
 
 client.stream('statuses/filter', { track: tags.join(), stall_warnings: true }, function(stream) {
     stream.on('data', function (data) {
-        if (data.text && !data.retweeted_status) {
-            tweet = data.text.toLowerCase()
-            tags.forEach(tag => {
-                if (tweet.includes(tag)) {
-                    let mentionedTeam = tagsToTeam[tag];
-                    let mentionedPlayer = null;
-                    const roster = rosters[mentionedTeam] || []
-                    roster.some(name => {
-                        if (tweet.includes(name)) mentionedPlayer = name;
-                        if (mentionedPlayer) {
-                            let score = sentiment.analyze(tweet, { extras: sentimentOverrides }).score
-                            if (mentionedPlayer === 'kevin love' || mentionedPlayer === 'kyle love') score -= 3
-                            console.log(tweet + ' ' + score + ' ' + mentionedPlayer)
-                            io.emit('tweet', {
-                                team: mentionedTeam,
-                                player: mentionedPlayer,
-                                tweetInfo: {
-                                    tweetId: data.id,
-                                    username: data.user.name,
-                                    screenName: data.user.screen_name,
-                                    profilePic: data.user.profile_image_url_https,
-                                    text: data.text
-                                },
-                                score: score
-                            });
-                        }
-                        return !!mentionedPlayer
-                    })
-                }
-            })
+        const isTweet = _.conformsTo(data, {
+          contributors: _.isObject,
+          id_str: _.isString,
+          text: _.isString,
+        })
+
+        if (isTweet) {
+            if (data.text && !data.retweeted_status) {
+                tweet = data.text.toLowerCase()
+                tags.forEach(tag => {
+                    if (tweet.includes(tag)) {
+                        let mentionedTeam = tagsToTeam[tag];
+                        let mentionedPlayer = null;
+                        const roster = rosters[mentionedTeam] || []
+                        roster.some(name => {
+                            if (tweet.includes(name)) mentionedPlayer = name;
+                            if (mentionedPlayer) {
+                                let score = sentiment.analyze(tweet, { extras: sentimentOverrides }).score
+                                if (mentionedPlayer === 'kevin love' || mentionedPlayer === 'kyle love') score -= 3
+                                console.log(tweet + ' ' + score + ' ' + mentionedPlayer)
+                                io.emit('tweet', {
+                                    team: mentionedTeam,
+                                    player: mentionedPlayer,
+                                    tweetInfo: {
+                                        tweetId: data.id,
+                                        username: data.user.name,
+                                        screenName: data.user.screen_name,
+                                        profilePic: data.user.profile_image_url_https,
+                                        text: data.text
+                                    },
+                                    score: score
+                                });
+                            }
+                            return !!mentionedPlayer
+                        })
+                    }
+                })
+            }
+        } else {
+            console.log("OTHER: " + data)
         }
     });
 
@@ -81,5 +91,9 @@ client.stream('statuses/filter', { track: tags.join(), stall_warnings: true }, f
 
     stream.on('error', function(error) {
         console.log(error)
+    })
+
+    stream.on('end', function(end) {
+        console.log("END: " + end)
     })
 });
