@@ -10,12 +10,12 @@
   "author": "Zal Machado",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.3",
+    "express": "^4.16.4",
     "http": "0.0.0",
     "lodash": "^4.17.11",
     "node-tweet-stream": "^2.0.3",
     "sentiment": "^5.0.1",
     "socket.io": "^2.1.1",
-    "testsocket-teams": "^2.4.3"
+    "testsocket-teams": "^2.5.1"
   }
 }
