@@ -10,7 +10,7 @@
   "author": "Zal Machado",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.311.0",
+    "aws-sdk": "^2.814.0",
     "cron": "^1.4.1",
     "lodash": "^4.17.10",
     "redis": "^2.8.0",
